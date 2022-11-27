@@ -28,6 +28,8 @@ class TasksAdapter :
         holder.bindData()
     }
 
+
+
     inner class TasksViewHolder(private val binding: SingletasklayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         private var model: TaskEntity? = null
