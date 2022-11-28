@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.noteapp.R
 import com.example.noteapp.common.BaseFragment
 import com.example.noteapp.data.TaskEntity
@@ -21,6 +22,7 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(FragmentAddTaskBind
     }
 
     override fun listeners() {
+
         binding.addNutton.setOnClickListener {
             val task = TaskEntity(
                 0,
@@ -28,6 +30,7 @@ class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(FragmentAddTaskBind
                 binding.etDescription.text.toString()
             )
             vm.insertTask(task)
+            findNavController().navigate(R.id.action_addTaskFragment_to_dashboardFragment)
         }
     }
 }

@@ -1,34 +1,70 @@
 package com.example.noteapp.ui.screens.dashboard
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+
+import android.widget.Toast
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.noteapp.R
+import com.example.noteapp.common.BaseFragment
+import com.example.noteapp.databinding.FragmentDashboardBinding
+import com.example.noteapp.ui.adapters.TasksAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DashboardFragment : Fragment() {
+class DashboardFragment :
+    BaseFragment<FragmentDashboardBinding>(FragmentDashboardBinding::inflate) {
 
-    companion object {
-        fun newInstance() = DashboardFragment()
+    private val tasksAdapter: TasksAdapter by lazy { TasksAdapter() }
+    private val vm: DashboardViewModel by viewModels()
+
+    override fun viewCreated() {
+
+        getTasks()
     }
 
-    private lateinit var viewModel: DashboardViewModel
+    override fun listeners() {
+        tasksAdapter.apply {
+            setOnItemClickListener{taskEntity, i ->
+                vm.delete(taskEntity)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+            }
+        }
+
+
+
+        binding.button.setOnClickListener{
+            findNavController().navigate(R.id.action_dashboardFragment_to_addTaskFragment)
+        }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun getTasks() {
+        setupRecycler()
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                vm.getTasks().collect() {
+                    tasksAdapter.submitList(it)
+                }
+            }
+        }
     }
+
+    private fun setupRecycler() {
+        binding.rvTasks.apply {
+            adapter = tasksAdapter
+            layoutManager =
+                GridLayoutManager(
+                    requireContext(),
+                    2,
+                    GridLayoutManager.VERTICAL,
+                    false
+                )
+        }
+    }
+
 
 }
