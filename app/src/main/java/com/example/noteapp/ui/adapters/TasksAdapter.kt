@@ -14,6 +14,7 @@ class TasksAdapter :
     ) {
 
     private lateinit var itemClickListener: (TaskEntity, Int) -> Unit
+    private lateinit var itemEditkListener: (TaskEntity, Int) -> Unit
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -43,11 +44,19 @@ class TasksAdapter :
 
             }
 
-            binding.mainlayout.setOnClickListener {
+            binding.btnDelete.setOnClickListener {
                 itemClickListener.invoke(model!!, adapterPosition)
+            }
+            binding.btnEdit.setOnClickListener {
+                itemEditkListener.invoke(model!!, adapterPosition)
             }
         }
     }
+
+    fun setOnEditClickListener(clickListener: (TaskEntity, Int) -> Unit){
+        itemEditkListener = clickListener
+    }
+
 
     fun setOnItemClickListener(clickListener: (TaskEntity, Int) -> Unit) {
         itemClickListener = clickListener

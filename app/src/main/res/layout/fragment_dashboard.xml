@@ -19,7 +19,7 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
 
-        android:id="@+id/button"
+        android:id="@+id/Addbutton"
         android:layout_width="60dp"
         android:elevation="10dp"
         android:layout_height="60dp"

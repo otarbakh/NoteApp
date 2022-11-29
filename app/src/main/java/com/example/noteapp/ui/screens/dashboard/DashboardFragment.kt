@@ -1,14 +1,12 @@
 package com.example.noteapp.ui.screens.dashboard
 
 
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import com.example.noteapp.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.noteapp.common.BaseFragment
 import com.example.noteapp.databinding.FragmentDashboardBinding
 import com.example.noteapp.ui.adapters.TasksAdapter
@@ -29,7 +27,11 @@ class DashboardFragment :
 
     override fun listeners() {
         tasksAdapter.apply {
-            setOnItemClickListener{taskEntity, i ->
+            setOnEditClickListener { taskEntity, i ->
+                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToEditFragment())
+            }
+
+            setOnItemClickListener { taskEntity, i ->
                 vm.delete(taskEntity)
 
             }
@@ -37,8 +39,8 @@ class DashboardFragment :
 
 
 
-        binding.button.setOnClickListener{
-            findNavController().navigate(R.id.action_dashboardFragment_to_addTaskFragment)
+        binding.Addbutton.setOnClickListener {
+            findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToAddTaskFragment())
         }
     }
 
@@ -57,10 +59,9 @@ class DashboardFragment :
         binding.rvTasks.apply {
             adapter = tasksAdapter
             layoutManager =
-                GridLayoutManager(
+                LinearLayoutManager(
                     requireContext(),
-                    2,
-                    GridLayoutManager.VERTICAL,
+                    LinearLayoutManager.VERTICAL,
                     false
                 )
         }
