@@ -2,11 +2,14 @@ package com.example.noteapp.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.noteapp.data.TaskEntity
 import com.example.noteapp.databinding.SingletasklayoutBinding
+import com.example.noteapp.ui.screens.dashboard.DashboardFragment
+import com.example.noteapp.ui.screens.dashboard.DashboardFragmentDirections
 
 class TasksAdapter :
     ListAdapter<TaskEntity, TasksAdapter.TasksViewHolder>(
@@ -14,7 +17,8 @@ class TasksAdapter :
     ) {
 
     private lateinit var itemClickListener: (TaskEntity, Int) -> Unit
-    private lateinit var itemEditkListener: (TaskEntity, Int) -> Unit
+
+//    private lateinit var itemEditkListener: (TaskEntity, Int) -> Unit
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
@@ -43,19 +47,18 @@ class TasksAdapter :
 
 
             }
+            binding.btnEdit.setOnClickListener {
+                val action = DashboardFragmentDirections.actionDashboardFragmentToEditFragment(model!!)
+                binding.btnEdit.findNavController().navigate(action)
+            }
 
             binding.btnDelete.setOnClickListener {
                 itemClickListener.invoke(model!!, adapterPosition)
             }
-            binding.btnEdit.setOnClickListener {
-                itemEditkListener.invoke(model!!, adapterPosition)
-            }
         }
     }
 
-    fun setOnEditClickListener(clickListener: (TaskEntity, Int) -> Unit){
-        itemEditkListener = clickListener
-    }
+
 
 
     fun setOnItemClickListener(clickListener: (TaskEntity, Int) -> Unit) {

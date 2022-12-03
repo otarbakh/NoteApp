@@ -27,15 +27,17 @@ class DashboardFragment :
 
     override fun listeners() {
         tasksAdapter.apply {
-            setOnEditClickListener { taskEntity, i ->
-                findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToEditFragment())
-            }
-
             setOnItemClickListener { taskEntity, i ->
                 vm.delete(taskEntity)
 
             }
         }
+
+        binding.ClearButton.setOnLongClickListener {
+            vm.deleteAll()
+            true
+        }
+
 
 
 

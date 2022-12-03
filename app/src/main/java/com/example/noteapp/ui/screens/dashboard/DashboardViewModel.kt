@@ -15,12 +15,17 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     private val tasksRepo: TasksRepositoryImplementation,
 ) : ViewModel() {
-    suspend fun getTasks(): Flow<List<TaskEntity>> {
+    fun getTasks(): Flow<List<TaskEntity>> {
         return tasksRepo.getTasks()
     }
     fun delete(task: TaskEntity) {
         CoroutineScope(Dispatchers.IO).launch {
             tasksRepo.deleteTask(task)
+        }
+    }
+    fun deleteAll() {
+        CoroutineScope(Dispatchers.IO).launch {
+            tasksRepo.deleteAll()
         }
     }
 

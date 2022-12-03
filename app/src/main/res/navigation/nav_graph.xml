@@ -34,5 +34,7 @@
         <action
             android:id="@+id/action_editFragment_to_dashboardFragment"
             app:destination="@id/dashboardFragment" />
+        <argument android:name="tasksinfo"
+            app:argType="com.example.noteapp.data.TaskEntity" />
     </fragment>
 </navigation>

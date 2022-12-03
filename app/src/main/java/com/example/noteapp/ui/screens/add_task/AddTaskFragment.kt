@@ -17,8 +17,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class AddTaskFragment : BaseFragment<FragmentAddTaskBinding>(FragmentAddTaskBinding::inflate) {
 
+//    delegireba gadabareba
     private val vm: AddTaskViewModel by viewModels()
+
     override fun viewCreated() {
+
     }
 
     override fun listeners() {

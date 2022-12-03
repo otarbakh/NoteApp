@@ -18,15 +18,7 @@ class AddTaskViewModel @Inject constructor(
             tasksRepo.insertTask(task)
         }
     }
-    fun delete(task: TaskEntity) {
-        CoroutineScope(Dispatchers.IO).launch {
-            tasksRepo.deleteTask(task)
-        }
-    }
 
-    fun deleteAll() {
-        CoroutineScope(Dispatchers.IO).launch {
-            tasksRepo.deleteAll()
-        }
-    }
+
+
 }
